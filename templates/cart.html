@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+</head>
+<body>
+    <!-- Feedback Message Placeholder -->
+    <div id="feedback-container"></div>
+
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Foodie Logo">
+        </a>
+
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            <li><a href="{{ url_for('profile') }}" class="active">Orders</a>
+            </li>
+            <li><a href="{{ url_for('profile') }}">Profile</a>
+                <ul class="dropdown-menu right-align">
+                    <li><a href="{{ url_for('profile') }}">View Profile</a></li>
+                    <li><a href="#">Orders</a></li>
+                    <li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Shopping Cart</h1>
+        <a href="{{ url_for('home') }}" class="back-to-menu">Back to Home</a>
+    </header>
+
+    <main>
+        <div id="cart-items"></div>
+        <div id="cart-total"></div>
+        <a href="{{ url_for('checkout') }}">
+            <button id="checkout-btn">Checkout</button>
+        </a>
+        
+    </main>
+
+    
+
+    <script src="{{ url_for('static', filename='cart.js') }}"></script>
+</body>
+</html>

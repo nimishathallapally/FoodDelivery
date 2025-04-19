@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmation</title>
+  <link rel="stylesheet" href="order.css">
+  <style>
+    /* General styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .confirmation-container {
+      text-align: center;
+    }
+
+    /* Loader Styles */
+    .loader-container {
+      display: block;
+    }
+
+    .loader {
+      border: 5px solid #f3f3f3; /* Light grey background */
+      border-top: 5px solid #ff6600; /* Orange spinner */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    .status-text {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Success Container Styles */
+    .success-container {
+      display: none;
+      text-align: center;
+    }
+
+    .checkmark {
+      margin-top: 20px;
+    }
+
+    .checkmark circle {
+      stroke: #4caf50;
+      stroke-width: 2;
+    }
+
+    .checkmark-check {
+      stroke: #4caf50;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      animation: checkmarkAnimation 0.5s ease-in-out forwards;
+    }
+
+    @keyframes checkmarkAnimation {
+      0% {
+        stroke-dasharray: 0, 60;
+      }
+      100% {
+        stroke-dasharray: 60, 60;
+      }
+    }
+
+    h2 {
+      color: #4caf50;
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="confirmation-container">
+    <div class="loader-container" id="loaderContainer">
+      <div class="loader"></div>
+      <p class="status-text">Processing Payment...</p>
+    </div>
+
+    <div class="success-container" id="successContainer">
+      <div class="checkmark">
+        <svg viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <h2>Payment Successful!</h2>
+      <p>Your order has been confirmed. Thank you!</p>
+    </div>
+  </div>
+  
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      // Simulate processing for 3 seconds
+      setTimeout(() => {
+        // Hide loader and show success message
+        document.getElementById("loaderContainer").style.display = "none";
+        document.getElementById("successContainer").style.display = "block";
+
+        // Redirect to home page after 3 seconds of success message
+        setTimeout(() => {
+          window.location.href = "/";  // Redirect to the home page
+        }, 3000);  // Delay redirection by 3 seconds
+      }, 3000);  // 3 seconds to show the loader before showing success
+    });
+  </script>
+</body>
+</html>

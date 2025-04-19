@@ -1,0 +1,5 @@
+msgid "Food Delivery"
+msgstr "Food Delivery"
+
+msgid "Loading, please wait..."
+msgstr "Loading, please wait..."

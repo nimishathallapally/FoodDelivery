@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Foodie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Foodie Logo">
+        </a>
+
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            <li><a href="{{ url_for('profile') }}" class="active">Orders</a>
+            </li>
+            <li><a href="{{ url_for('profile') }}">Profile</a>
+                <ul class="dropdown-menu right-align">
+                    <li><a href="{{ url_for('profile') }}">View Profile</a></li>
+                    <li><a href="#">Orders</a></li>
+                    <li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Profile Section -->
+    <main class="profile-container">
+        <h1>My Profile</h1>
+
+        <!-- Navigation Tabs -->
+        <div class="profile-tabs">
+            <button class="tab-link active" onclick="openTab(event, 'personal-info')">Personal Info</button>
+            <button class="tab-link" onclick="openTab(event, 'order-history')">Order History</button>
+            <button class="tab-link" onclick="openTab(event, 'payment-methods')">Payment Methods</button>
+        </div>
+
+        <!-- Personal Info -->
+        <div id="personal-info" class="tab-content active">
+            <h2>Personal Information</h2>
+            <p><strong>Name:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Phone:</strong> {{ user.phone }}</p>
+            <!-- <a href="{{ url_for('profile') }}">Profile</a> -->
+            <!-- <a><class="btn">Edit Profile</a> -->
+            <!-- <a href="{{ url_for('edit_profile') }}" class="btn">Edit Profile</a> -->
+        </div>
+
+        <!-- Order History -->
+        <div id="order-history" class="tab-content">
+            <h2>Order History</h2>
+            <ul class="order-list">
+                <li class="order-item">
+                    <span class="order-id">Order #12345</span>
+                    <span class="order-status">Shipped</span>
+                    <span class="order-total">150.00 USD</span>
+                </li>
+                <li class="order-item">
+                    <span class="order-id">Order #12346</span>
+                    <span class="order-status">Processing</span>
+                    <span class="order-total">89.99 USD</span>
+                </li>
+                <li class="order-item">
+                    <span class="order-id">Order #12347</span>
+                    <span class="order-status">Delivered</span>
+                    <span class="order-total">45.50 USD</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Payment Methods -->
+        <div id="payment-methods" class="tab-content">
+            <h2>Payment Methods</h2>
+            <ul class="payment-methods-list">
+                <li class="payment-method-item">
+                    <span class="payment-card-type">Visa</span>
+                    <span class="payment-card-ending">Ending in 1234</span>
+                    <span class="payment-expiry">Expires: 08/26</span>
+                </li>
+                <li class="payment-method-item">
+                    <span class="payment-card-type">MasterCard</span>
+                    <span class="payment-card-ending">Ending in 5678</span>
+                    <span class="payment-expiry">Expires: 11/24</span>
+                </li>
+                <li class="payment-method-item">
+                    <span class="payment-card-type">PayPal</span>
+                    <span class="payment-email">Linked to ***@example.com</span>
+                    <span class="payment-last-used">Last used: April 12, 2025</span>
+                </li>
+            </ul>
+        </div>
+
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Foodie. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function openTab(event, tabName) {
+            var i, tabContent, tabLinks;
+
+            // Hide all tabs
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+
+            // Remove active class from buttons
+            tabLinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].classList.remove("active");
+            }
+
+            // Show the clicked tab
+            document.getElementById(tabName).style.display = "block";
+            event.currentTarget.classList.add("active");
+        }
+
+        // Show the first tab by default
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("personal-info").style.display = "block";
+        });
+    </script>
+
+    <style>
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 437px;
+        }
+
+        footer a {
+            color: #ff6347;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            color: #ff4500;
+        }
+    </style>
+
+</body>
+
+</html>

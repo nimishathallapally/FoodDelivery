@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Foodie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/checkout.css') }}">
+    <style>
+        /* Full-screen overlay */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .progress {
+            width: 80%;
+            max-width: 600px;
+            height: 20px;
+            background-color: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: repeating-linear-gradient(45deg,
+                    #ff6600,
+                    #ff6600 10px,
+                    #e55c00 10px,
+                    #e55c00 20px);
+            animation: progress-stripes 1s linear infinite;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ff6600;
+        }
+
+        @keyframes progress-stripes {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 40px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="page-loader">
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                style="width: 0%"></div>
+        </div>
+        <div class="progress-text">0%</div>
+    </div>
+
+    <!-- Feedback Message Placeholder -->
+    <div id="feedback-container"></div>
+
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Foodie Logo">
+        </a>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            <li><a href="{{ url_for('profile') }}" class="active">Orders</a></li>
+            <li>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <ul class="dropdown-menu right-align">
+                    <li><a href="{{ url_for('profile') }}">View Profile</a></li>
+                    <li><a href="#">Orders</a></li>
+                    <li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Checkout</h1>
+        <a href="{{ url_for('cart') }}" class="back-to-cart">Back to Cart</a>
+    </header>
+
+    <main>
+        <div class="checkout-form">
+            <form id="checkout-form"  action="{{ url_for('payment') }}" method="POST">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Name" required>
+
+                <label for="phone">Mobile Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" required>
+
+                <label for="address">Street Address</label>
+                <input type="text" id="address" name="address" placeholder=" Apartment name" required>
+
+                <label for="landmark">Landmark (Optional)</label>
+                <input type="text" id="landmark" name="landmark" placeholder="landmark">
+
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" placeholder="city" required>
+
+                <label for="pincode">Pincode</label>
+                <input type="text" id="pincode" name="pincode" placeholder="6-digit PIN" required>
+
+                <label for="state">State</label>
+                <input type="text" id="state" name="state" placeholder="state" required>
+
+                <label for="address-type">Address Type</label>
+                <select id="address-type" name="address_type" required>
+                    <option value="">Select</option>
+                    <option value="home">Home</option>
+                    <option value="work">Work</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <button type="submit">Place Order</button>
+
+
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Simulate loading progress bar (change progress incrementally)
+        const progressBar = document.querySelector('.progress-bar');
+        const progressText = document.querySelector('.progress-text');
+
+        let progress = 0;
+        let interval = setInterval(() => {
+            if (progress < 100) {
+                progress += 2;
+                progressBar.style.width = `${progress}%`;
+                progressBar.setAttribute('aria-valuenow', progress);
+                progressText.innerText = `${progress}%`;
+            } else {
+                clearInterval(interval);
+                const loader = document.getElementById('page-loader');
+                if (loader) {
+                    loader.style.transition = 'opacity 0.4s ease';
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 400);
+                }
+            }
+        }, 30);
+    </script>
+</body>
+
+</html>

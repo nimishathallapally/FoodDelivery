@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment - Foodie</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/payment.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Foodie Logo">
+        </a>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            <li><a href="{{ url_for('profile') }}" class="active">Orders</a></li>
+            <li>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <ul class="dropdown-menu right-align">
+                    <li><a href="{{ url_for('profile') }}">View Profile</a></li>
+                    <li><a href="#">Orders</a></li>
+                    <li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+  <main class="payment-container">
+    <h1>Select Payment Method</h1>
+
+    <form action="{{ url_for('place_order') }}" method="POST" class="payment-form">
+      <div class="payment-option">
+        <input type="radio" id="upi" name="payment_method" value="UPI" required>
+        <label for="upi">UPI (Google Pay / PhonePe / Paytm)</label>
+      </div>
+
+      <div class="payment-option">
+        <input type="radio" id="card" name="payment_method" value="Card">
+        <label for="card">Credit/Debit Card</label>
+      </div>
+
+      <div class="payment-option">
+        <input type="radio" id="cod" name="payment_method" value="COD">
+        <label for="cod">Cash on Delivery (COD)</label>
+      </div>
+
+      <div class="payment-option">
+        <input type="radio" id="wallet" name="payment_method" value="Wallet">
+        <label for="wallet">Wallet (Amazon Pay / Mobikwik)</label>
+      </div>
+
+      <button type="submit">Continue to Pay</button>
+    </form>
+  </main>
+</body>
+</html>

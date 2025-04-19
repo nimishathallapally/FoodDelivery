@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Payment - Foodie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/checkout.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 16px 32px;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6600 !important;
+            text-decoration: none !important;
+            cursor: pointer;
+        }
+
+        .logo:hover,
+        .logo:focus,
+        .logo:active {
+            color: #ff6600 !important;
+            text-decoration: none !important;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            position: relative;
+            display: inline-block;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+            padding: 10px;
+            display: block;
+        }
+
+        .navbar ul li a:hover {
+            color: #ff6600;
+        }
+
+        .navbar ul li .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            top: 100%;
+            left: 0;
+            min-width: 160px;
+            list-style: none;
+            padding: 10px 0;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            z-index: 1100;
+        }
+
+        .navbar ul li:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            width: 100%;
+        }
+
+        .dropdown-menu li a {
+            color: #333;
+            padding: 10px;
+            display: block;
+            font-weight: normal;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .dropdown-menu li a:hover {
+            background: #f4f4f4;
+        }
+
+        .logo img {
+            width: 120px;
+            /* Adjust the width to make the logo smaller */
+            height: auto;
+            /* Maintain the aspect ratio */
+            cursor: pointer;
+            /* Change cursor to pointer to indicate it's clickable */
+        }
+
+        /* Optional: If you want to center the logo */
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            /* Adds some space between the navbar and the payment form */
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="password"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff6600;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e55c00;
+        }
+
+        /* CAPTCHA Section */
+        .captcha-container {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .captcha-image img {
+            width: 150px;
+            height: 50px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .captcha-input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Foodie Logo">
+        </a>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            <li><a href="{{ url_for('profile') }}" class="active">Orders</a></li>
+            <li>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <ul class="dropdown-menu right-align">
+                    <li><a href="{{ url_for('profile') }}">View Profile</a></li>
+                    <li><a href="#">Orders</a></li>
+                    <li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+
+        <h1>Card Payment</h1>
+
+        <form action="{{ url_for('order_confirmation') }}" method="POST">
+            <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" name="card_number" required placeholder="Enter your card number"
+                    maxlength="19">
+            </div>
+
+            <div class="form-group">
+                <label for="expiry-date">Expiry Date (MM/YY)</label>
+                <input type="text" id="expiry-date" name="expiry_date" required placeholder="MM/YY">
+            </div>
+
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="password" id="cvv" name="cvv" required placeholder="Enter CVV" maxlength="3" />
+            </div>
+
+            <div class="form-group">
+                <label for="name-on-card">Name on Card</label>
+                <input type="text" id="name-on-card" name="name_on_card" required placeholder="Enter name on card">
+            </div>
+
+            <div class="captcha-container">
+                <div class="captcha-image">
+                    <img src="{{ url_for('static', filename='captcha/' + captcha_filename) }}" alt="CAPTCHA">
+                </div>
+                <input type="text" name="captcha" class="captcha-input" required placeholder="Enter CAPTCHA">
+            </div>
+
+
+            <button type="submit">Proceed to Payment</button>
+        </form>
+        {% if error %}
+        <p style="color: red; text-align: center; margin-bottom: 15px;">{{ error }}</p>
+        {% endif %}
+
+    </div>
+
+    <script>
+        // Masking card number input to format as XXXX XXXX XXXX XXXX
+        $('#card-number').on('input', function () {
+            var value = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
+            if (value.length > 4) {
+                value = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Format with spaces
+            }
+            $(this).val(value);
+        });
+
+        // Enable calendar date picker for expiry date
+        $('#expiry-date').attr('type', 'month');
+
+        // Mask CVV input
+        $('#cvv').on('input', function () {
+            var value = $(this).val().replace(/\D/g, ''); // Allow only digits
+            $(this).val(value); // Update the input field
+        });
+    </script>
+</body>
+
+</html>

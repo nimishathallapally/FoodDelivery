@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <!-- Full-screen loading wrapper -->
+    <div id="loadingWrapper"
+        class="fixed top-0 left-0 w-full h-full bg-white z-50 flex justify-center items-center flex-col">
+        <div class="text-blue-600 text-xl font-semibold">
+            <p>Loading, please wait...</p>
+        </div>
+        <div id="loadingBarContainer" class="w-full bg-gray-200 h-2 rounded-full mt-4">
+            <div id="loadingBar" class="bg-indigo-600 h-full rounded-full" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Foodie Logo">
+        </a>
+        
+
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            <li><a href="{{ url_for('profile') }}" class="active">Orders</a></li>
+            <li><a href="{{ url_for('profile') }}">Profile</a>
+                <ul class="dropdown-menu right-align">
+                    <li><a href="{{ url_for('profile') }}">View Profile</a></li>
+                    <li><a href="#">Orders</a></li>
+                    <li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Banner -->
+    <div class="banner">
+        <img src="{{ url_for('static', filename='images/banner.png') }}" alt="Delicious Food">
+        <div class="banner-text">
+            <h1>Welcome to Foodie!</h1>
+            <p>Delicious food, delivered to your door.</p>
+        </div>
+    </div>
+
+    <!-- Limited Offer Section -->
+    <section class="offer-section">
+        <h2>Limited Time Offer!🔥</h2>
+        <div class="offer-card">
+            <p>Get 20% off on your first order! Use code: <strong>FOODIE20</strong></p>
+            <p class="countdown" id="countdown">Expires in: 00:10:00</p>
+        </div>
+    </section>
+
+    <!-- Restaurant Listing -->
+    <section class="restaurant-list">
+        <h2>Choose Your Favorite Restaurant</h2>
+        <div class="restaurants">
+            {% for restaurant in restaurants %}
+            <a href="{{ url_for('menu', restaurant_id=restaurant.id) }}" class="restaurant-block">
+                <div class="restaurant">
+                    <img src="{{ restaurant.image }}" alt="{{ restaurant.name }}">
+                    <h3>{{ restaurant.name }}</h3>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Foodie. All Rights Reserved.</p>
+        <p>Follow us:
+            <a href="#">Facebook</a> |
+            <a href="#">Instagram</a> |
+            <a href="#">Twitter</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        window.addEventListener('load', function () {
+            const loadingBar = document.getElementById('loadingBar');
+            const loadingWrapper = document.getElementById('loadingWrapper');
+            let width = 0;
+
+            // Simulating loading progress
+            const interval = setInterval(function () {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => loadingWrapper.style.display = 'none', 500); // Hide after delay
+                } else {
+                    width++;
+                    loadingBar.style.width = width + '%';
+                }
+            }, 10);  // Adjust this value to control the speed
+
+            // Countdown Timer Logic for Limited Offer
+            const countdownElement = document.getElementById('countdown');
+            let timeLeft = 600; // 10 minutes countdown (in seconds)
+
+            const timer = setInterval(function () {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                countdownElement.textContent = `Expires in: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    countdownElement.textContent = "Offer Expired!";
+                } else {
+                    timeLeft--;
+                }
+            }, 1000);
+        });
+        
+    </script>
+</body>
+
+</html>

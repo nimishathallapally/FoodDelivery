@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+</head>
+
+<body>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Foodie Logo">
+        </a>
+
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            <li><a href="{{ url_for('profile') }}" class="active">Orders</a>
+            </li>
+            <li><a href="{{ url_for('profile') }}">Profile</a>
+                <ul class="dropdown-menu right-align">
+                    <li><a href="{{ url_for('profile') }}">View Profile</a></li>
+                    <li><a href="#">Orders</a></li>
+                    <li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1>{{ restaurant.name }}</h1>
+        <div class="rating">⭐ {{ restaurant.rating }} / 5</div>
+    </div>
+
+    <!-- Filter Dropdown -->
+    <div class="menu-dropdown">
+        <button class="dropbtn">Filter by Category ⌵</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="filterMenu('all')">All</a>
+            <div class="submenu">
+                <a href="#">Starters ⌵</a>
+                <div class="submenu-content">
+                    <a href="#" onclick="filterMenu('veg_starters')">Veg Starters</a>
+                    <a href="#" onclick="filterMenu('non_veg_starters')">Non-Veg Starters</a>
+                </div>
+            </div>
+            <div class="submenu">
+                <a href="#">Main Course ⌵</a>
+                <div class="submenu-content">
+                    <a href="#" onclick="filterMenu('indian')">Indian</a>
+                    <a href="#" onclick="filterMenu('chinese')">Chinese</a>
+                    <a href="#" onclick="filterMenu('continental')">Continental</a>
+                </div>
+            </div>
+            <a href="#" onclick="filterMenu('desserts')">Desserts</a>
+            <div class="submenu">
+                <a href="#">Beverages ⌵</a>
+                <div class="submenu-content">
+                    <a href="#" onclick="filterMenu('hot')">Hot Beverages</a>
+                    <a href="#" onclick="filterMenu('cold')">Cold Beverages</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu -->
+    <div class="menu-container">
+        {% if menu_items %}
+        <h2 class="menu-header">Our Special Dishes</h2>
+        <div class="menu-list">
+            {% for item in menu_items %}
+            <div class="menu-item" data-category="{{ item.category }}">
+                <div class="menu-details">
+                    <h3>{{ item.name }}</h3>
+                    <p class="price">₹{{ item.price }}</p>
+                    <p>{{ item.description }}</p>
+                    <button class="add-to-cart" data-name="{{ item.name }}" data-price="{{ item.price }}"
+                        data-restaurant="{{ restaurant.name }}"
+                        onclick="addToCart(this, '{{ item.name }}', '{{ item.price }}','{{ restaurant.name }}')">
+                        ADD
+                    </button>
+
+                </div>
+                <img src="{{ url_for('static', filename='images/' + item.name | lower | replace(' ', '_') + '.jpg') }}"
+                    alt="{{ item.name }}">
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No menu available for this restaurant.</p>
+        {% endif %}
+    </div>
+    <div id="cart-items-container" class="cart-items-container">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div id="cart-total"></div>
+    </div>
+    <!-- Feedback Pop-up -->
+    <div id="feedback-popup" class="feedback-popup" >
+        <p id="feedback-message">Item added to cart!</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Foodie Heaven. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
